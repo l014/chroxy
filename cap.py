@@ -1,9 +1,4 @@
 #!/usr/bin/python3.9
-
-# todo.
-#      cleanup->kill specific proc & rm tmp profile for proc 
-#      err.handling
-
 import os,requests,json,sys,urllib.request,socket,subprocess,shlex,time 
 
 def newProxy():
@@ -49,7 +44,6 @@ def cleanup(xp,cv,chp):
             p.kill()
         os.system('rm -rf /tmp/tmp.*')
         subprocess.Popen(shlex.split(kill))
-        #subprocess.Popen(shlex.split(dtmp))
         sys.exit('bye')
     if kt == 'n':
         main()
@@ -60,30 +54,30 @@ def cleanup(xp,cv,chp):
 def bin():
     os.system('clear')
     cv = input('[+]set bin to use\n c\tchrome\n i\tchromeium\n>')
+    cb = ['chrome','chromium']
     if cv == 'c':
-        cmd = 'type chrome &>/dev/null'
+        cmd = 'type chrome'
+        cv='chrome'
         try:
-            bin = subprocess.check_output(cmd, shell=True)
-            cv='chrome'
-        except subprocess.CalledProcessError as isbin:                                                                         print('error code', isbin.returncode)
-            sys.exit('chrome not found it PATH')
+            sbin=subprocess.check_output(cmd, shell=True)
+        except subprocess.CalledProcessError as issbin:
+            print('error code', issbin.returncode)
+            sys.exit('[-] chrome not found')
+            #cv='chrome not found it PATH'
     if cv == 'i':
-        cmd = 'type chromium &>/dev/null'
+        cv='chromium'
+        cmd = 'type chromium'
         try:
-            bin = subprocess.check_output(cmd, shell=True)
-            cv='chromium'
-        except subprocess.CalledProcessError as isbin:                                                                                                   
-            print('error code', isbin.returncode)
-            sys.exit('chromium not found it PATH')
-    else:
-        return 0
+            sbin=subprocess.check_output(cmd, shell=True)
+        except subprocess.CalledProcessError as issbin:                          
+            print('error code', issbin.returncode)
+            sys.exit('[-] chromium not found')
+    if cv not in cb:
+        sys.exit('[-] input err')
     return cv
 
 def main():
-    cv = bin()    
-    if cv == 0:
-        print('[-] check input')
-        main()
+    cv=bin()
     print('[+] using ', cv)
     time.sleep(3)
     xp=0
