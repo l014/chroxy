@@ -5,7 +5,7 @@ chrome / chromium proxyspitter
 
 ```
 todo
-  support fort win
+  support for win
   err.handling
   function to kill specific proc
   api options- tld,protocol,resp.time,anonlevel
